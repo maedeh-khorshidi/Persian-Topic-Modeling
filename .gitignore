@@ -3,6 +3,27 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Models
+models/
+ParsBERT/
+
+# Outputs
+outputs/
+
+# Results
+results/
+
+# Data
+data/raw/
+data/processed/
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
 # C extensions
 *.so
 
