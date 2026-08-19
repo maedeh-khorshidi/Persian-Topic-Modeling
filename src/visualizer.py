@@ -503,19 +503,21 @@ class TopicVisualizer(BaseVisualizer):
         return fig
     
     
-    def generate_all_figs(self, document, embeding, compration_mode = False, comparison_df = None):
-        
+    def generate_all_figs(self, document=None, embeding=None, compration_mode=False,
+                        metric_df=None, topic_count_df=None,
+                        outlier_df=None, radar_df=None):
+
         if not compration_mode:
             self.visualize_topics()
             self.visualize_barchart()
             self.visualize_hierarchy()
             self.visualize_heatmap()
             self.visualize_documents(document, embeding)
-        
+
         else:
-            self.plot_metric_comparison(comparison_df)
-            self.plot_topic_count_comparison(comparison_df)
-            self.plot_outlier_comparison(comparison_df)
-            self.plot_radar_comparison(comparison_df)
+            self.plot_metric_comparison(metric_df)
+            self.plot_topic_count_comparison(topic_count_df)
+            self.plot_outlier_comparison(outlier_df)
+            self.plot_radar_comparison(radar_df)
 
         return self.figures

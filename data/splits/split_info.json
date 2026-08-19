@@ -1,0 +1,22 @@
+{
+  "total_documents": 5969,
+  "train_size": 4775,
+  "test_size": 1194,
+  "test_ratio": 0.2,
+  "random_state": 42,
+  "stratify_column": "category",
+  "train_distribution": {
+    "ورزشی": 1117,
+    "سیاسی": 1037,
+    "اقتصادی": 1013,
+    "فرهنگی و هنری": 956,
+    "اجتماعی": 652
+  },
+  "test_distribution": {
+    "ورزشی": 279,
+    "سیاسی": 260,
+    "اقتصادی": 253,
+    "فرهنگی و هنری": 239,
+    "اجتماعی": 163
+  }
+}

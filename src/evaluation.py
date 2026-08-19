@@ -27,7 +27,6 @@ class TopicEvaluator:
         self.metrics = {}
         self.metrics_df = None
         self.tokenized_documents = self._tokenize_documents()
-        self.dictionary = Dictionary(self.tokenized_documents)
         self.topic_words = self._get_topics()
 
 
