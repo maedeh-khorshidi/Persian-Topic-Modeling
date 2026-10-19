@@ -28,6 +28,7 @@ class KNNCategoryEvaluator(SentenceEvaluator):
         self.name = name
         self.k = k
         self.batch_size = batch_size
+        self._n_calls = 0  
 
     def __call__(self, model, output_path=None, epoch=-1, steps=-1):
 
@@ -40,8 +41,8 @@ class KNNCategoryEvaluator(SentenceEvaluator):
 
         clf = KNeighborsClassifier(n_neighbors=self.k, metric="cosine")
         scores = cross_val_score(clf, embeddings, self.val_labels, cv=5)
+        
         accuracy = scores.mean()
-
-        print(f"[epoch {epoch}] KNN(k={self.k}) val accuracy: {accuracy:.4f}")
-
-        return accuracy
+        self._n_calls += 1
+        print(f"[eval #{self._n_calls}] KNN(k={self.k}) val accuracy: {accuracy:.4f}")   # جایگزین چاپ قبلی
+        return {"eval_accuracy": float(accuracy)}

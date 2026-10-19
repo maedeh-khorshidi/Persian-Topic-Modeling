@@ -203,28 +203,25 @@ CSV_ENCODING = "utf-8-sig"
 # =========================================================
 # Fine-Tuning Configuration
 # =========================================================
-
-NEGATIVE_STRATEGY = "easy"
-
-FINETUNED_MODEL_DIR = (
-    MODELS_DIR / 
-    "finetuned" /
-    "batch_hard_triplet"
-)
-
-
+FINETUNED_MODEL_DIR = MODELS_DIR / "finetuned" / "batch_hard_triplet"
 FINETUNE_MODEL_NAME = EMBEDDING_MODEL_NAME
 
 LEARNING_RATE = 2e-5
-
-EPOCHS = 8
-
-TRAIN_BATCH_SIZE = 16
-
 WEIGHT_DECAY = 0.01
-
+WARMUP_RATIO = 0.1
 MAX_SEQ_LENGTH = 256
 
+TRAIN_BATCH_SIZE = 16
+GRADIENT_ACCUMULATION_STEPS = 2        # هر به‌روزرسانی وزن = ۳۲ نمونه
+
+EPOCHS = 15                            # سقف؛ early stopping زودتر قطع می‌کند
+EARLY_STOPPING_PATIENCE = 2
+EARLY_STOPPING_THRESHOLD = 0.001
+METRIC_FOR_BEST_MODEL = "eval_accuracy"
+GREATER_IS_BETTER = True
+LOAD_BEST_MODEL_AT_END = True
+
+SEEDS = [42, 123, 2024]
 
 # --------------------------------------------------
 # Topic Labeling

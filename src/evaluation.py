@@ -100,7 +100,7 @@ class TopicEvaluator:
             texts=sample_docs,
             dictionary=dictionary,
             coherence=COHERENCE_METHOD,
-            processes=-1          # استفاده از تمام هسته‌های CPU
+            processes=1          # استفاده از تمام هسته‌های CPU اگر -1 باشد
         )
 
         score = coherence_model.get_coherence()
@@ -221,3 +221,29 @@ class TopicEvaluator:
         self.metrics_df.to_csv(path, index=False, encoding=CSV_ENCODING)
 
         print( f"Evaluation results saved successfully:\n{path}")
+
+def compute_purity(y_true, y_pred):
+    clusters = {}
+    for t, p in zip(y_true, y_pred):
+        clusters.setdefault(p, []).append(t)
+    correct = sum(Counter(v).most_common(1)[0][1] for v in clusters.values())
+    return correct / len(y_true)
+
+
+def evaluate_nmi_purity(y_true, y_pred, label="", seed=None):
+    """
+    with_outliers   : outliers (-1) are treated as ONE extra cluster.
+    without_outliers: outliers are dropped (same definition as TopicEvaluator).
+    """
+    y_true, y_pred = np.asarray(y_true), np.asarray(y_pred)
+    mask = y_pred != -1
+    return {
+        "label": label, "seed": seed,
+        "n_total": int(len(y_pred)),
+        "n_outliers": int((~mask).sum()),
+        "outlier_ratio": float((~mask).mean()),
+        "nmi_with_outliers": float(normalized_mutual_info_score(y_true, y_pred)),
+        "nmi_without_outliers": float(normalized_mutual_info_score(y_true[mask], y_pred[mask])) if mask.any() else np.nan,
+        "purity_with_outliers": float(compute_purity(y_true, y_pred)),
+        "purity_without_outliers": float(compute_purity(y_true[mask], y_pred[mask])) if mask.any() else np.nan,
+    }
